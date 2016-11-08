@@ -1,0 +1,51 @@
+{{#javaPackage}}
+package {{javaPackage}}.controllers;
+
+import {{javaPackage}}.models.*;
+import {{javaPackage}}.parsers.*;
+{{/javaPackage}}
+import io.caboose.swagger.models.ErrorModel;
+import play.mvc.*;
+import io.caboose.swagger.SwaggerController;
+import io.caboose.swagger.SwaggerService;
+
+@SwaggerService.Service()
+public class {{name}}Controller extends SwaggerController {
+{{#functions}}
+    {{#output}}
+    @SwaggerService.Output({{output}}.class)
+    {{/output}}
+    {{#errors}}
+    @SwaggerService.Output(Error{{camelFunctionName}}{{camelCode}}.class)
+    {{/errors}}
+    {{#inputShortName}}
+    @SwaggerService.Input({{output}}.class)
+    @BodyParser.Of({{inputShortName}}Parser.class)
+    {{/inputShortName}}
+    public Result {{functionName}}({{{functionParams}}}) {
+        {{#input}}
+        {{input}} input = request().body().as({{input}}.class);
+        return SwaggerService.ok(input);
+        {{/input}}
+        {{#errors}}
+        //return SwaggerService.error(new Error{{camelFunctionName}}{{camelCode}}());
+        {{/errors}}
+    }
+
+{{/functions}}
+
+{{#functions}}
+{{#errors}}
+    public static class Error{{camelFunctionName}}{{camelCode}} extends ErrorModel {
+        public Error{{camelFunctionName}}{{camelCode}}() {
+            super({{statusCode}}, "{{{message}}}", "{{{code}}}");
+        }
+    }
+
+{{/errors}}
+{{/functions}}
+
+
+}
+
+

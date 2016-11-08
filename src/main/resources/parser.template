@@ -1,0 +1,25 @@
+{{#javaPackage}}
+package {{javaPackage}}.parsers;
+
+import {{javaPackage}}.models.*;
+{{/javaPackage}}
+
+import com.google.inject.Inject;
+import io.caboose.swagger.parsers.SwaggerParser;
+import play.api.http.HttpConfiguration;
+import play.http.HttpErrorHandler;
+
+public class {{name}}Parser extends SwaggerParser<{{name}}> {
+
+    @Override
+    protected Class<{{name}}> getClazz() {
+        return {{name}}.class;
+    }
+
+    @Inject
+    protected {{name}}Parser(HttpConfiguration httpConfiguration, HttpErrorHandler errorHandler, String errorMessage
+                          ) throws NoSuchMethodException  {
+        super(httpConfiguration, errorHandler, errorMessage);
+    }
+
+}

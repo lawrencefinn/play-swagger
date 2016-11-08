@@ -1,0 +1,5 @@
+{{#services}}
+{{#functions}}
+{{method}}          {{path}}          {{javaPackage}}.controllers.{{name}}Controller.{{functionName}}({{{functionParamsForRoute}}})
+{{/functions}}
+{{/services}}
